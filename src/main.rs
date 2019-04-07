@@ -13,9 +13,19 @@ use gifos::println;
 pub extern "C" fn _start() -> ! {
     println!("Hello World{}", "!");
 
+    gifos::gdt::init();
     gifos::interrupts::init_idt();
 
-    x86_64::instructions::interrupts::int3();
+    #[allow(unconditional_recursion)]
+    fn stack_overflow() {
+        stack_overflow();
+    }
+    stack_overflow();
+
+    // trigger a page fault
+    unsafe {
+        *(0xdeadbeef as *mut u64) = 42;
+    }
 
     println!("It did not crash!");
     loop {}
