@@ -141,3 +141,186 @@ impl fmt::Write for Writer {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    fn construct_writer() -> Writer {
+        use std::boxed::Box;
+
+        let buffer = construct_buffer();
+        Writer {
+            column_position: 0,
+            color_code: ColorCode::new(Color::Blue, Color::Magenta),
+            buffer: Box::leak(Box::new(buffer)),
+        }
+    }
+
+    fn construct_buffer() -> Buffer {
+        use array_init::array_init;
+        Buffer {
+            chars: array_init(|_| array_init(|_| Volatile::new(empty_char()))),
+        }
+    }
+
+    fn empty_char() -> ScreenChar {
+        ScreenChar {
+            ascii_character: b' ',
+            color_code: ColorCode::new(Color::Green, Color::Brown),
+        }
+    }
+
+    #[test]
+    fn write_byte() {
+        let mut writer = construct_writer();
+        writer.write_byte(b'X');
+        writer.write_byte(b'Y');
+
+        for (i, row) in writer.buffer.chars.iter().enumerate() {
+            for (j, screen_char) in row.iter().enumerate() {
+                let screen_char = screen_char.read();
+                if i == BUFFER_HEIGHT - 1 && j == 0 {
+                    assert_eq!(screen_char.ascii_character, b'X');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else if i == BUFFER_HEIGHT - 1 && j == 1 {
+                    assert_eq!(screen_char.ascii_character, b'Y');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else {
+                    assert_eq!(screen_char, empty_char());
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn write_formatted() {
+        use core::fmt::Write;
+
+        let mut writer = construct_writer();
+        writeln!(&mut writer, "a").unwrap();
+        writeln!(&mut writer, "b{}", "c").unwrap();
+
+        for (i, row) in writer.buffer.chars.iter().enumerate() {
+            for (j, screen_char) in row.iter().enumerate() {
+                let screen_char = screen_char.read();
+                if i == BUFFER_HEIGHT - 3 && j == 0 {
+                    assert_eq!(screen_char.ascii_character, b'a');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else if i == BUFFER_HEIGHT - 2 && j == 0 {
+                    assert_eq!(screen_char.ascii_character, b'b');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else if i == BUFFER_HEIGHT - 2 && j == 1 {
+                    assert_eq!(screen_char.ascii_character, b'c');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else if i >= BUFFER_HEIGHT - 2 {
+                    assert_eq!(screen_char.ascii_character, b' ');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else {
+                    assert_eq!(screen_char, empty_char());
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn change_writer_color() {
+        use core::fmt::Write;
+
+        let mut writer = construct_writer();
+        let color_code1 = writer.color_code;
+        let color_code2 = ColorCode::new(Color::Black, Color::White);
+        let color_code3 = ColorCode::new(Color::Yellow, Color::Green);
+        writeln!(&mut writer, "a").unwrap();
+        writer.color_code = color_code2;
+        writeln!(&mut writer, "b").unwrap();
+        writer.color_code = color_code3;
+        writeln!(&mut writer, "c").unwrap();
+
+        for (i, row) in writer.buffer.chars.iter().enumerate() {
+            for (j, screen_char) in row.iter().enumerate() {
+                let screen_char = screen_char.read();
+                if i == BUFFER_HEIGHT - 4 && j == 0 {
+                    assert_eq!(screen_char.ascii_character, b'a');
+                    assert_eq!(screen_char.color_code, color_code1);
+                } else if i == BUFFER_HEIGHT - 3 {
+                    if j == 0 {
+                        assert_eq!(screen_char.ascii_character, b'b');
+                        assert_eq!(screen_char.color_code, color_code2);
+                    } else {
+                        assert_eq!(screen_char.ascii_character, b' ');
+                        assert_eq!(screen_char.color_code, color_code1);
+                    }
+                } else if i == BUFFER_HEIGHT - 2 {
+                    if j == 0 {
+                        assert_eq!(screen_char.ascii_character, b'c');
+                        assert_eq!(screen_char.color_code, color_code3);
+                    } else {
+                        assert_eq!(screen_char.ascii_character, b' ');
+                        assert_eq!(screen_char.color_code, color_code2);
+                    }
+                } else if i == BUFFER_HEIGHT - 1 {
+                    assert_eq!(screen_char.ascii_character, b' ');
+                    assert_eq!(screen_char.color_code, color_code3);
+                } else {
+                    assert_eq!(screen_char, empty_char());
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn shift_lines() {
+        use core::fmt::Write;
+
+        let offset = 5;
+        let mut writer = construct_writer();
+        for i in 0..(BUFFER_HEIGHT + offset) {
+            writeln!(writer, "{:>02}", i).unwrap();
+        }
+
+        for (i, row) in writer.buffer.chars.iter().enumerate() {
+            for (j, screen_char) in row.iter().enumerate() {
+                let num = i + offset + 1;
+                let screen_char = screen_char.read();
+                assert_eq!(screen_char.color_code, writer.color_code);
+                if i < BUFFER_HEIGHT - 1 && j == 0 {
+                    assert_eq!(screen_char.ascii_character, b'0' + (num / 10) as u8);
+                } else if i < BUFFER_HEIGHT - 1 && j == 1 {
+                    assert_eq!(screen_char.ascii_character, b'0' + (num % 10) as u8);
+                } else {
+                    assert_eq!(screen_char.ascii_character, b' ');
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn unicode_char() {
+        use core::fmt::Write;
+
+        let mut writer = construct_writer();
+        write!(&mut writer, "Hello, 世界").unwrap();
+        for (i, row) in writer.buffer.chars.iter().enumerate() {
+            for (j, screen_char) in row.iter().enumerate() {
+                let screen_char = screen_char.read();
+                if i < BUFFER_HEIGHT - 1 || j > 12 {
+                    assert_eq!(screen_char, empty_char());
+                } else {
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                    let expected = match j {
+                        0 => b'H',
+                        1 => b'e',
+                        2 | 3 => b'l',
+                        4 => b'o',
+                        5 => b',',
+                        6 => b' ',
+                        7 | 8 | 9 | 10 | 11 | 12 => 0xfe,
+                        _ => panic!(),
+                    };
+                    assert_eq!(screen_char.ascii_character, expected);
+                }
+            }
+        }
+    }
+}
