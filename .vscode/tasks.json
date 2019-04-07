@@ -1,0 +1,47 @@
+{
+    // tasks.json 形式の詳細についての資料は、
+    // https://go.microsoft.com/fwlink/?LinkId=733558 をご覧ください
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build binary",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "xbuild",
+                "--target",
+                "x86_64-gifos.json"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "build"
+        },
+        {
+            "label": "build bootimage",
+            "type": "shell",
+            "command": "bootimage",
+            "args": [
+                "build"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "run",
+            "type": "shell",
+            "command": "bootimage",
+            "args": [
+                "run"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
+        }
+    ]
+}
