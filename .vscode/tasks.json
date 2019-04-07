@@ -4,7 +4,7 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build binary",
+            "label": "Rust: cargo xbuild",
             "type": "shell",
             "command": "cargo",
             "args": [
@@ -18,7 +18,7 @@
             "group": "build"
         },
         {
-            "label": "build bootimage",
+            "label": "Rust: bootimage build",
             "type": "shell",
             "command": "bootimage",
             "args": [
@@ -33,7 +33,7 @@
             }
         },
         {
-            "label": "run",
+            "label": "Rust: bootimage run",
             "type": "shell",
             "command": "bootimage",
             "args": [
@@ -44,7 +44,18 @@
             ]
         },
         {
-            "label": "format",
+            "label": "Rust: bootimage test",
+            "type": "shell",
+            "command": "bootimage",
+            "args": [
+                "test"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
+        },
+        {
+            "label": "Rust: cargo fmt",
             "type": "shell",
             "command": "cargo",
             "args": [
