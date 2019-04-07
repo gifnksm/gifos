@@ -42,6 +42,17 @@
             "problemMatcher": [
                 "$rustc"
             ]
+        },
+        {
+            "label": "format",
+            "type": "shell",
+            "command": "cargo",
+            "args": [
+                "fmt"
+            ],
+            "problemMatcher": [
+                "$rustc"
+            ]
         }
     ]
 }
