@@ -22,5 +22,5 @@ fn panic(_info: &PanicInfo) -> ! {
     unsafe {
         exit_qemu();
     }
-    loop {}
+    gifos::hlt_loop();
 }

@@ -28,7 +28,7 @@ pub extern "C" fn _start() -> ! {
     unsafe {
         exit_qemu();
     }
-    loop {}
+    gifos::hlt_loop();
 }
 
 /// This function is called on panic.
@@ -40,7 +40,7 @@ fn panic(info: &PanicInfo) -> ! {
     unsafe {
         exit_qemu();
     }
-    loop {}
+    gifos::hlt_loop();
 }
 
 lazy_static! {
@@ -68,5 +68,5 @@ extern "x86-interrupt" fn double_fault_handler(
     unsafe {
         exit_qemu();
     }
-    loop {}
+    gifos::hlt_loop();
 }

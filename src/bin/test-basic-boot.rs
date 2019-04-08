@@ -14,7 +14,7 @@ pub extern "C" fn _start() -> ! {
     unsafe {
         exit_qemu();
     }
-    loop {}
+    gifos::hlt_loop();
 }
 
 /// This function is called on panic.
@@ -26,5 +26,5 @@ fn panic(info: &PanicInfo) -> ! {
     unsafe {
         exit_qemu();
     }
-    loop {}
+    gifos::hlt_loop();
 }
