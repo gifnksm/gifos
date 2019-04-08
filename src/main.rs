@@ -11,24 +11,17 @@ use gifos::println;
 #[cfg(not(test))]
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
+    use gifos::interrupts::PICS;
+
     println!("Hello World{}", "!");
 
     gifos::gdt::init();
     gifos::interrupts::init_idt();
-
-    #[allow(unconditional_recursion)]
-    fn stack_overflow() {
-        stack_overflow();
-    }
-    stack_overflow();
-
-    // trigger a page fault
-    unsafe {
-        *(0xdeadbeef as *mut u64) = 42;
-    }
+    unsafe { PICS.lock().initialize() };
+    x86_64::instructions::interrupts::enable();
 
     println!("It did not crash!");
-    loop {}
+    gifos::hlt_loop();
 }
 
 /// This function is called on panic.
@@ -36,5 +29,5 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    gifos::hlt_loop();
 }
