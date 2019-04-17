@@ -4,7 +4,7 @@ use uart_16550::SerialPort;
 
 lazy_static! {
     pub static ref SERIAL: Mutex<SerialPort> = {
-        let mut serial_port = SerialPort::new(0x3F8);
+        let mut serial_port = unsafe { SerialPort::new(0x3F8) };
         serial_port.init();
         Mutex::new(serial_port)
     };
