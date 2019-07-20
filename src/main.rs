@@ -13,7 +13,7 @@ use gifos::println;
 pub extern "C" fn _start() -> ! {
     use gifos::interrupts::PICS;
 
-    println!("Hello World{}", "!");
+    println!("Hello World! {}", 32 + 3);
 
     gifos::gdt::init();
     gifos::interrupts::init_idt();
@@ -27,7 +27,7 @@ pub extern "C" fn _start() -> ! {
         level_4_page_table.start_address()
     );
 
-    let ptr = 0xdeadbeaf as *mut u32;
+    let ptr = 0xdead_beaf as *mut u32;
     unsafe {
         *ptr = 42;
     }

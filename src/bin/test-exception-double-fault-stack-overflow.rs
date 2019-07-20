@@ -56,6 +56,7 @@ lazy_static! {
     };
 }
 
+#[cfg(not(test))]
 fn init_test_idt() {
     IDT.load();
 }

@@ -151,6 +151,7 @@ mod test {
     use super::*;
 
     fn construct_writer() -> Writer {
+        #[cfg(not(test))]
         use std::boxed::Box;
 
         let buffer = construct_buffer();
@@ -203,7 +204,7 @@ mod test {
 
         let mut writer = construct_writer();
         writeln!(&mut writer, "a").unwrap();
-        writeln!(&mut writer, "b{}", "c").unwrap();
+        writeln!(&mut writer, "bc {}", 32 + 3).unwrap();
 
         for (i, row) in writer.buffer.chars.iter().enumerate() {
             for (j, screen_char) in row.iter().enumerate() {
@@ -217,6 +218,15 @@ mod test {
                 } else if i == BUFFER_HEIGHT - 2 && j == 1 {
                     assert_eq!(screen_char.ascii_character, b'c');
                     assert_eq!(screen_char.color_code, writer.color_code);
+                } else if i == BUFFER_HEIGHT - 2 && j == 2 {
+                    assert_eq!(screen_char.ascii_character, b' ');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else if i == BUFFER_HEIGHT - 2 && j == 3 {
+                    assert_eq!(screen_char.ascii_character, b'3');
+                    assert_eq!(screen_char.color_code, writer.color_code);
+                } else if i == BUFFER_HEIGHT - 2 && j == 4 {
+                    assert_eq!(screen_char.ascii_character, b'5');
+                    assert_eq!(screen_char.color_code, writer.color_code);
                 } else if i >= BUFFER_HEIGHT - 2 {
                     assert_eq!(screen_char.ascii_character, b' ');
                     assert_eq!(screen_char.color_code, writer.color_code);
@@ -228,6 +238,7 @@ mod test {
     }
 
     #[test]
+
     fn change_writer_color() {
         use core::fmt::Write;
 
