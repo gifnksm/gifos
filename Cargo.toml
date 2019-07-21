@@ -6,6 +6,7 @@ edition = "2018"
 
 [dependencies]
 bootloader = { version = "0.6", features = ["map_physical_memory"] }
+linked_list_allocator = "0.6"
 pc-keyboard = "0.5"
 pic8259_simple = "0.1"
 uart_16550 = "0.2"
