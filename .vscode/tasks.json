@@ -8,21 +8,7 @@
             "type": "shell",
             "command": "cargo",
             "args": [
-                "xbuild",
-                "--target",
-                "x86_64-gifos.json"
-            ],
-            "problemMatcher": [
-                "$rustc"
-            ],
-            "group": "build"
-        },
-        {
-            "label": "Rust: bootimage build",
-            "type": "shell",
-            "command": "bootimage",
-            "args": [
-                "build"
+                "xbuild"
             ],
             "problemMatcher": [
                 "$rustc"
@@ -33,22 +19,22 @@
             }
         },
         {
-            "label": "Rust: bootimage run",
+            "label": "Rust: cargo xrun",
             "type": "shell",
-            "command": "bootimage",
+            "command": "cargo",
             "args": [
-                "run"
+                "xrun"
             ],
             "problemMatcher": [
                 "$rustc"
             ]
         },
         {
-            "label": "Rust: bootimage test",
+            "label": "Rust: cargo xtest",
             "type": "shell",
-            "command": "bootimage",
+            "command": "cargo",
             "args": [
-                "test"
+                "xtest"
             ],
             "problemMatcher": [
                 "$rustc"

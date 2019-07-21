@@ -117,3 +117,16 @@ extern "x86-interrupt" fn page_fault_handler(
     println!("{:#?}", stack_frame);
     hlt_loop();
 }
+
+#[cfg(test)]
+mod test {
+    use crate::{serial_print, serial_println};
+
+    #[test_case]
+    fn breakpoint_exception() {
+        serial_print!("breakpoint_exception... ");
+        // invoke a breakpoint exception
+        x86_64::instructions::interrupts::int3();
+        serial_println!("[ok]");
+    }
+}
