@@ -23,27 +23,20 @@
 * Build
 
     ```console
-    $ bootimage build
+    $ cargo xbuild
     ...
     ```
 
 * Boot
 
     ```console
-    $ bootimage run
+    $ cargo xrun
     ...
     ```
 
-* Run unittest
+* Run unittest & integration test
 
     ```console
-    $ cargo test
-    ...
-    ```
-
-* Run integration test
-
-    ```console
-    $ bootimage test
+    $ cargo xtest
     ...
     ```
