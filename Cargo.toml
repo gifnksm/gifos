@@ -5,7 +5,7 @@ authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-bootloader = "0.6"
+bootloader = { version = "0.6", features = ["map_physical_memory"] }
 pc-keyboard = "0.5"
 pic8259_simple = "0.1"
 uart_16550 = "0.2"
@@ -27,4 +27,3 @@ panic = "abort"
 
 [package.metadata.bootimage]
 default-target = "x86_64-gifos.json"
-

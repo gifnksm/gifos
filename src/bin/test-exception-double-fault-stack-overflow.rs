@@ -3,16 +3,17 @@
 #![cfg_attr(not(test), no_main)]
 #![cfg_attr(test, allow(unused_imports))]
 
+use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use gifos::{exit_qemu, gdt, serial_println};
 use lazy_static::lazy_static;
 use x86_64::structures::idt::{InterruptDescriptorTable, InterruptStackFrame};
 
-/// This function is the entry point, since the linker looks for a function
-/// named `_start` by default.
 #[cfg(not(test))]
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+entry_point!(test_kernel_main);
+
+#[cfg(not(test))]
+fn test_kernel_main(_boot_info: &'static BootInfo) -> ! {
     gifos::gdt::init();
     init_test_idt();
 
