@@ -76,8 +76,15 @@ fn alloc_error_handler(layout: alloc::alloc::Layout) -> ! {
 entry_point!(test_kernel_main);
 
 #[cfg(test)]
-fn test_kernel_main(_boot_info: &'static BootInfo) -> ! {
+fn test_kernel_main(boot_info: &'static BootInfo) -> ! {
     init();
+
+    use memory::BootInfoFrameAllocator;
+    let mut mapper = unsafe { memory::init(boot_info.physical_memory_offset) };
+    let mut frame_allocator = unsafe { BootInfoFrameAllocator::init(&boot_info.memory_map) };
+
+    allocator::init_heap(&mut mapper, &mut frame_allocator).expect("heap initialization failed");
+
     test_main();
     hlt_loop();
 }
