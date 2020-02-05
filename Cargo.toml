@@ -5,20 +5,20 @@ authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 edition = "2018"
 
 [dependencies]
-bootloader = { version = "0.6", features = ["map_physical_memory"] }
+bootloader = { version = "0.8", features = ["map_physical_memory"] }
 linked_list_allocator = "0.6"
 pc-keyboard = "0.5"
 pic8259_simple = "0.1"
 uart_16550 = "0.2"
 spin = "0.5"
 volatile = "0.2"
-x86_64 = "0.7"
+x86_64 = "0.8"
 [dependencies.lazy_static]
 version = "1.3"
 features = ["spin_no_std"]
 
 [dev-dependencies]
-array-init = "0.0.4"
+array-init = "0.1"
 
 [profile.dev]
 panic = "abort"
