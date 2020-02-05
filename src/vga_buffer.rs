@@ -168,10 +168,10 @@ mod test {
     }
 
     #[test_case]
-    fn prinln_output() {
+    fn println_output() {
         use core::fmt::Write;
         use x86_64::instructions::interrupts;
-        serial_print!("prinln_output... ");
+        serial_print!("println_output... ");
 
         let s = "Some test string that fits on a single line";
         interrupts::without_interrupts(|| {

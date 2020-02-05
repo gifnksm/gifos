@@ -1,4 +1,18 @@
 {
     "rust.all_targets": false,
-    "rust.target": "x86_64-unknown-linux-gnu"
+    "rust.target": "x86_64-unknown-linux-gnu",
+    "cSpell.allowCompoundWords": true,
+    "cSpell.words": [
+        "addr",
+        "gifnksm",
+        "gifos",
+        "llvm",
+        "qemu",
+        "repr",
+        "uart",
+        "virt",
+        "xbuild",
+        "xrun",
+        "xtest"
+    ]
 }

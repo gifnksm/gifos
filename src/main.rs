@@ -76,8 +76,8 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 #[test_case]
-fn trivial_assersion() {
-    serial_print!("trivial assersion... ");
+fn trivial_assertion() {
+    serial_print!("trivial assertion... ");
     assert_eq!(1, 1);
     serial_println!("[ok]");
 }
