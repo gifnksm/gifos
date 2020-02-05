@@ -1,5 +1,8 @@
 #![feature(abi_x86_interrupt)]
 #![feature(alloc_error_handler)]
+#![feature(alloc_layout_extra)]
+#![feature(const_fn)]
+#![feature(const_in_array_repeat_expressions)]
 #![feature(custom_test_frameworks)]
 #![no_std]
 #![cfg_attr(test, no_main)]
@@ -18,10 +21,6 @@ pub mod vga_buffer;
 #[cfg(test)]
 use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
-use linked_list_allocator::LockedHeap;
-
-#[global_allocator]
-static ALLOCATOR: LockedHeap = LockedHeap::empty();
 
 pub fn init() {
     gdt::init();
