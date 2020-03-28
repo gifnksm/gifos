@@ -10,7 +10,7 @@ use gifos::{println, serial_print, serial_println};
 #[no_mangle]
 pub extern "C" fn _start() -> ! {
     test_main();
-    loop {}
+    gifos::hlt_loop();
 }
 
 #[panic_handler]
