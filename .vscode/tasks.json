@@ -23,6 +23,15 @@
                 "$rustc"
             ],
             "group": "test"
+        },
+        {
+            "label": "Rust: cargo xtest",
+            "type": "shell",
+            "command": "cargo xtest",
+            "problemMatcher": [
+                "$rustc"
+            ],
+            "group": "test"
         }
     ]
 }
