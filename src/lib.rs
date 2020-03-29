@@ -4,6 +4,7 @@
 #![feature(const_fn)]
 #![feature(alloc_layout_extra)]
 #![feature(const_in_array_repeat_expressions)]
+#![feature(wake_trait)]
 #![no_std]
 #![cfg_attr(test, no_main)]
 #![test_runner(crate::test_runner)]
@@ -20,6 +21,7 @@ pub mod gdt;
 pub mod interrupts;
 pub mod memory;
 pub mod serial;
+pub mod task;
 pub mod vga_buffer;
 
 pub fn init() {

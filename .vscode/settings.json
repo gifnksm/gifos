@@ -8,14 +8,19 @@
         "clippy",
         "concat",
         "dealloc",
+        "deque",
         "gifos",
         "keyevent",
+        "keypresses",
         "process",
         "qemu",
         "repr",
         "scancode",
+        "scancodes",
         "uart",
+        "uninit",
         "virt",
+        "vtable",
         "xtest"
     ]
 }
