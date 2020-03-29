@@ -62,7 +62,7 @@ fn panic(info: &PanicInfo) -> ! {
 }
 
 #[alloc_error_handler]
-fn alloc_error_hendler(layout: alloc::alloc::Layout) -> ! {
+fn alloc_error_handler(layout: alloc::alloc::Layout) -> ! {
     panic!("allocation error: {:?}", layout);
 }
 

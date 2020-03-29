@@ -1,5 +1,21 @@
 {
     "rust.all_targets": false,
     "rust.clippy_preference": "on",
-    "rust.target": "x86_64-unknown-linux-gnu"
+    "rust.target": "x86_64-unknown-linux-gnu",
+    "cSpell.words": [
+        "bootinfo",
+        "bootloader",
+        "clippy",
+        "concat",
+        "dealloc",
+        "gifos",
+        "keyevent",
+        "process",
+        "qemu",
+        "repr",
+        "scancode",
+        "uart",
+        "virt",
+        "xtest"
+    ]
 }
