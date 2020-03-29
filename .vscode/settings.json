@@ -1,0 +1,5 @@
+{
+    "rust.all_targets": false,
+    "rust.clippy_preference": "on",
+    "rust.target": "x86_64-unknown-linux-gnu"
+}
