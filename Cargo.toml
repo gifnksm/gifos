@@ -15,6 +15,7 @@ x86_64 = "0.9.6"
 uart_16550 = "0.2.4"
 pic8259_simple = "0.1.1"
 pc-keyboard = "0.5.0"
+linked_list_allocator = "0.8.1"
 
 [package.metadata.bootimage]
 test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04", "-serial", "stdio", "-display", "none"]
