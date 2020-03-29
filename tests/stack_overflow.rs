@@ -2,6 +2,7 @@
 #![no_std]
 #![no_main]
 
+use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use gifos::{exit_qemu, serial_print, serial_println, QemuExitCode};
 use lazy_static::lazy_static;
@@ -23,8 +24,9 @@ pub fn init_test_idt() {
     TEST_IDT.load();
 }
 
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+entry_point!(test_kernel_main);
+
+fn test_kernel_main(_boot_info: &'static BootInfo) -> ! {
     serial_print!("stack_overflow... ");
 
     gifos::gdt::init();

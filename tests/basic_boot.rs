@@ -4,11 +4,12 @@
 #![test_runner(gifos::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
+use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use gifos::{println, serial_print, serial_println};
 
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+entry_point!(test_kernel_main);
+fn test_kernel_main(_boot_info: &'static BootInfo) -> ! {
     test_main();
     gifos::hlt_loop();
 }
