@@ -16,8 +16,6 @@
     ...
     ```
 
-## Installation
-
 ## License
 
 Licensed under either of
