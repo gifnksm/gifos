@@ -6,6 +6,16 @@
 
 * [Writing an OS in Rust](https://os.phil-opp.com)
 
+## Requirement
+
+* [QEMU]
+* [bootimage]
+
+    ```console
+    $ cargo install bootimage
+    ...
+    ```
+
 ## Installation
 
 ## License
