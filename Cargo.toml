@@ -4,8 +4,9 @@ version = "0.1.0"
 authors = ["gifnksm <makoto.nksm+github@gmail.com>"]
 edition = "2018"
 
-[profile.dev]
-panic = "abort"
+# https://github.com/rust-lang/cargo/issues/7359
+# [profile.dev]
+# panic = "abort"
 
 [profile.release]
 panic = "abort"
@@ -14,4 +15,15 @@ panic = "abort"
 bootloader = "0.9"
 lazy_static = {version = "1.4", features = ["spin_no_std"]}
 spin = "0.5"
+uart_16550 = "0.2"
 volatile = "0.2"
+x86_64 = "0.14"
+
+[package.metadata.bootimage]
+test-args = ["-device", "isa-debug-exit,iobase=0xf4,iosize=0x04", "-serial", "stdio", "-display", "none"]
+test-success-exit-code = 33         # (0x10 << 1) | 1
+test-timeout = 300
+
+[[test]]
+name = "should_panic"
+harness = false
