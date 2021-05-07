@@ -13,18 +13,11 @@ pub extern "C" fn _start() -> ! {
 
     gifos::init();
 
-    // fn stack_overflow() {
-    //     stack_overflow();
-    // }
-
-    // // trigger a stack overflow
-    // stack_overflow();
-
     #[cfg(test)]
     test_main();
 
     println!("It did not crash!");
-    loop {}
+    gifos::hlt_loop();
 }
 
 /// This function is called on panic.
@@ -32,7 +25,7 @@ pub extern "C" fn _start() -> ! {
 #[panic_handler]
 fn panic(info: &PanicInfo) -> ! {
     println!("{}", info);
-    loop {}
+    gifos::hlt_loop();
 }
 
 #[cfg(test)]
