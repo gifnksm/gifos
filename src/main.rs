@@ -1,6 +1,6 @@
+#![feature(custom_test_frameworks)]
 #![no_std]
 #![no_main]
-#![feature(custom_test_frameworks)]
 #![test_runner(gifos::test_runner)]
 #![reexport_test_harness_main = "test_main"]
 
@@ -13,7 +13,12 @@ pub extern "C" fn _start() -> ! {
 
     gifos::init();
 
-    x86_64::instructions::interrupts::int3();
+    // fn stack_overflow() {
+    //     stack_overflow();
+    // }
+
+    // // trigger a stack overflow
+    // stack_overflow();
 
     #[cfg(test)]
     test_main();
