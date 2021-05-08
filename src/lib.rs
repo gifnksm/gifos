@@ -1,4 +1,5 @@
 #![feature(abi_x86_interrupt)]
+#![feature(alloc_error_handler)]
 #![feature(custom_test_frameworks)]
 #![no_std]
 #![cfg_attr(test, no_main)]
@@ -6,10 +7,13 @@
 #![reexport_test_harness_main = "test_main"]
 #![deny(unsafe_op_in_unsafe_fn)]
 
+extern crate alloc;
+
 #[cfg(test)]
 use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 
+pub mod allocator;
 pub mod gdt;
 pub mod interrupts;
 pub mod memory;
