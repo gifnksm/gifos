@@ -3,6 +3,7 @@
         "bootinfo",
         "bootloader",
         "concat",
+        "dealloc",
         "gifos",
         "keyevent",
         "qemu",
