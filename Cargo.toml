@@ -12,7 +12,7 @@ edition = "2018"
 panic = "abort"
 
 [dependencies]
-bootloader = "0.9"
+bootloader = {version = "0.9", features = ["map_physical_memory"]}
 lazy_static = {version = "1.4", features = ["spin_no_std"]}
 pc-keyboard = "0.5.1"
 pic8259_simple = "0.2.0"

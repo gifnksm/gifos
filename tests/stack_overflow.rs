@@ -4,7 +4,9 @@
 #![no_main]
 #![test_runner(test_runner)]
 #![reexport_test_harness_main = "test_main"]
+#![deny(unsafe_op_in_unsafe_fn)]
 
+use bootloader::{entry_point, BootInfo};
 use core::panic::PanicInfo;
 use gifos::{exit_qemu, serial_println, QemuExitCode};
 use lazy_static::lazy_static;
@@ -36,8 +38,9 @@ extern "x86-interrupt" fn test_double_fault_handler(
     gifos::hlt_loop();
 }
 
-#[no_mangle]
-pub extern "C" fn _start() -> ! {
+entry_point!(test_kernel_main);
+
+fn test_kernel_main(_boot_info: &'static BootInfo) -> ! {
     serial_println!("stack_overflow::stack_overflow...\t");
 
     gifos::gdt::init();
