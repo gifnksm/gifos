@@ -4,12 +4,18 @@
         "bootloader",
         "concat",
         "dealloc",
+        "deque",
+        "destructure",
         "gifos",
         "keyevent",
+        "keypresses",
         "qemu",
         "repr",
         "scancode",
+        "scancodes",
         "uart",
-        "virt"
+        "uninit",
+        "virt",
+        "vtable"
     ]
 }
