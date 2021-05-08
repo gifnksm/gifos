@@ -23,7 +23,7 @@ fn kernel_main(boot_info: &'static BootInfo) -> ! {
     };
     use x86_64::VirtAddr;
 
-    println!("Hello World{}", "!");
+    println!("Hello World!");
     gifos::init();
 
     let phys_mem_offset = VirtAddr::new(boot_info.physical_memory_offset);

@@ -9,6 +9,12 @@ pub struct Executor {
     waker_cache: BTreeMap<TaskId, Waker>,
 }
 
+impl Default for Executor {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Executor {
     pub fn new() -> Self {
         Self {
@@ -48,7 +54,7 @@ impl Executor {
             };
             let waker = waker_cache
                 .entry(task_id)
-                .or_insert_with(|| TaskWaker::new(task_id, task_queue.clone()));
+                .or_insert_with(|| TaskWaker::waker(task_id, task_queue.clone()));
             let mut context = Context::from_waker(waker);
             match task.poll(&mut context) {
                 Poll::Ready(()) => {
@@ -79,7 +85,7 @@ struct TaskWaker {
 }
 
 impl TaskWaker {
-    fn new(task_id: TaskId, task_queue: Arc<ArrayQueue<TaskId>>) -> Waker {
+    fn waker(task_id: TaskId, task_queue: Arc<ArrayQueue<TaskId>>) -> Waker {
         Waker::from(Arc::new(TaskWaker {
             task_id,
             task_queue,
